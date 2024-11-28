@@ -2,10 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Talla</title>
+    <title>Lista de Colores</title>
 </head>
 <body>
-<h1>Categorias de Tallas</h1>
+<h1>Categorias de colores</h1>
 <table>
   <thead>
   <tr>
@@ -14,21 +14,21 @@
   </tr>
   </thead>
   <tbody>
-  <tr th:each="ctallas : ${ctalla}">
-    <td th:text="${ctallas.id}"></td>
-    <td th:text="${ctallas.talla}"></td>
+  <tr th:each="ccolores : ${ccolor}">
+    <td th:text="${ccolores.id}"></td>
+    <td th:text="${ccolores.color}"></td>
   </tr>
   </tbody>
 </table>
 <div>
   <h1> crear una categoria </h1>
-  <form th:action="@{/categorias/tallas}" method="post" th:object="${Ctalla}">
+  <form th:action="@{/categorias/colores}" method="post" th:object="${Ccolor}">
     <div th:if="${error}">
       <p style="color:red;" th:text="${error}"></p>
     </div>
     <div>
-      <label for="nombrePrenda">Categoria prenda:</label>
-      <input type="text" id="nombrePrenda" th:field="*{talla}" placeholder="Nombre de Talla o numero ">
+      <label for="color">Categoria Color:</label>
+      <input type="text" id="color" th:field="*{color}" placeholder="Color: ej azul, rojo...">
     </div>
     <button type="submit">Guardar Categoria</button>
   </form>

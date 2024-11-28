@@ -3,12 +3,16 @@ package com.gaes4.AStyles.Controladores;
 import com.gaes4.AStyles.Dtos.CategoriaGeneroDto;
 import com.gaes4.AStyles.Dtos.CategoriaPrendaDto;
 import com.gaes4.AStyles.Dtos.CategoriaTallasDto;
+import com.gaes4.AStyles.Dtos.CateogoriaColorDto;
+import com.gaes4.AStyles.Entidades.CategoriaColor;
 import com.gaes4.AStyles.Entidades.CategoriaGenero;
 import com.gaes4.AStyles.Entidades.CategoriaPrenda;
 import com.gaes4.AStyles.Entidades.CategoriaTallas;
+import com.gaes4.AStyles.Repositorios.CategoriaColorRepo;
 import com.gaes4.AStyles.Repositorios.CategoriaPrendasRepo;
 import com.gaes4.AStyles.Repositorios.CategoriaTallaRepo;
 import com.gaes4.AStyles.Repositorios.CategoriasGeneroRepo;
+import com.gaes4.AStyles.Servicios.CategoriaColorService;
 import com.gaes4.AStyles.Servicios.CategoriaGeneroService;
 import com.gaes4.AStyles.Servicios.CategoriaPrendaService;
 import com.gaes4.AStyles.Servicios.CategoriaTallaService;
@@ -34,11 +38,15 @@ public class CategoriasGeneralesController {
     @Autowired
     private CategoriaTallaService servicioCetegoriaTallas;
     @Autowired
+    private CategoriaColorService servicioCategoriaColor;
+    @Autowired
     private CategoriasGeneroRepo repositorioGeneroC;
     @Autowired
     private CategoriaPrendasRepo repositorioPrendasC;
     @Autowired
     private CategoriaTallaRepo repositoriotallasC;
+    @Autowired
+    private CategoriaColorRepo repositorioColorC;
 
     // listar categorias para GENEROS
     @GetMapping("/generos")
@@ -65,6 +73,14 @@ public class CategoriasGeneralesController {
         model.addAttribute("ctalla", categoriaTalla);
         model.addAttribute("Ctalla", new CategoriaTallasDto());
         return "Categorias/listaTallas";
+    }
+    // lista de colores
+    @GetMapping("/colores")
+    public String mostrarColores(Model model) {
+        List<CateogoriaColorDto> cateogoriaColor = servicioCategoriaColor.listaCategorias();
+        model.addAttribute("ccolor", cateogoriaColor);
+        model.addAttribute("Ccolor", new CateogoriaColorDto());
+        return "Categorias/listaColores";
     }
 
     // Crear PRENDAS
@@ -110,7 +126,22 @@ public class CategoriasGeneralesController {
             return "redirect:/categorias/tallas";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
-            return "Categoria/listaTallas";
+            return "Categorias/listaTallas";
+        }
+    }
+
+    @PostMapping("/colores")
+    public String crearCategoriaC(@ModelAttribute CateogoriaColorDto cateogoriaColorDto, Model model) {
+        try {
+            Optional<CategoriaColor> existente = repositorioColorC.findByColor(cateogoriaColorDto.getColor());
+            if (existente.isPresent()) {
+                throw new IllegalArgumentException("el color" + cateogoriaColorDto.getColor() + "ya exite en esta categoria");
+            }
+            servicioCategoriaColor.guardarColor(cateogoriaColorDto);
+            return "redirect:/categorias/colores";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            return "Categorias/listaColores";
         }
     }
 }

@@ -24,4 +24,27 @@ public class CategoriaColor {
     @OneToMany(mappedBy = "categoriaColor")
     private List<Produccion> produccions;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Produccion> getProduccions() {
+        return produccions;
+    }
+
+    public void setProduccions(List<Produccion> produccions) {
+        this.produccions = produccions;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 }
