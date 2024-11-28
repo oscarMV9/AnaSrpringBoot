@@ -22,6 +22,6 @@ public class CategoriaColor {
     private String color;
 
     @OneToMany(mappedBy = "categoriaColor")
-    private List<Productos> productos;
+    private List<Produccion> produccions;
 
 }

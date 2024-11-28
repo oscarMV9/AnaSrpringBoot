@@ -26,6 +26,22 @@ public class Produccion {
     @Column(nullable = false, length = 60)
     private String nombreProveedor;
 
+    @OneToMany
+    @JoinColumn(name = "id_Talla", nullable = false)
+    private CategoriaTallas categoriaTallas;
+
+    @OneToMany
+    @JoinColumn(name = "id_color", nullable = false)
+    private CategoriaColor categoriaColor;
+
+    @OneToMany
+    @JoinColumn(name = "id_tipPrenda", nullable = false)
+    private CategoriaPrenda categoriaPrenda;
+
+    @OneToMany
+    @JoinColumn(name = "id_genero", nullable = false)
+    private CategoriaGenero categoriaGenero;
+
     @Column(nullable = false, length = 240)
     private int cantidad;
 
