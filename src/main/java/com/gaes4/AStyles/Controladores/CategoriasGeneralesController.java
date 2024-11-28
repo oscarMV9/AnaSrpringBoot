@@ -5,6 +5,7 @@ import com.gaes4.AStyles.Dtos.CategoriaPrendaDto;
 import com.gaes4.AStyles.Dtos.CategoriaTallasDto;
 import com.gaes4.AStyles.Entidades.CategoriaGenero;
 import com.gaes4.AStyles.Entidades.CategoriaPrenda;
+import com.gaes4.AStyles.Entidades.CategoriaTallas;
 import com.gaes4.AStyles.Repositorios.CategoriaPrendasRepo;
 import com.gaes4.AStyles.Repositorios.CategoriaTallaRepo;
 import com.gaes4.AStyles.Repositorios.CategoriasGeneroRepo;
@@ -57,10 +58,12 @@ public class CategoriasGeneralesController {
         return "Categorias/listaPrendas";
     }
 
+    // Lista de TALLAS
     @GetMapping("/tallas")
     public String mostrarTallas(Model model) {
         List<CategoriaTallasDto> categoriaTalla = servicioCetegoriaTallas.listaCategoriasT();
         model.addAttribute("ctalla", categoriaTalla);
+        model.addAttribute("Ctalla", new CategoriaTallasDto());
         return "Categorias/listaTallas";
     }
 
@@ -93,6 +96,21 @@ public class CategoriasGeneralesController {
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
             return "Categorias/listaPrendas";
+        }
+    }
+
+    @PostMapping("/tallas")
+    public String crearCategoriaT(@ModelAttribute CategoriaTallasDto categoriaTallasDto, Model model) {
+        try {
+            Optional<CategoriaTallas> existente = repositoriotallasC.findByTalla(categoriaTallasDto.getTalla());
+            if (existente.isPresent()) {
+                throw new IllegalArgumentException("la Talla" + categoriaTallasDto.getTalla() + "ya esiste");
+            }
+            servicioCetegoriaTallas.GuardarCategoria(categoriaTallasDto);
+            return "redirect:/categorias/tallas";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            return "Categoria/listaTallas";
         }
     }
 }

@@ -20,5 +20,18 @@
   </tr>
   </tbody>
 </table>
+<div>
+  <h1> crear una categoria </h1>
+  <form th:action="@{/categorias/tallas}" method="post" th:object="${Ctalla}">
+    <div th:if="${error}">
+      <p style="color:red;" th:text="${error}"></p>
+    </div>
+    <div>
+      <label for="nombrePrenda">Categoria prenda:</label>
+      <input type="text" id="nombrePrenda" th:field="*{talla}" placeholder="Nombre de Prenda">
+    </div>
+    <button type="submit">Guardar Categoria</button>
+  </form>
+</div>
 </body>
 </html>
