@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Prendas</title>
+</head>
+<body>
+<h1>Categorias de prendas</h1>
+<table>
+  <thead>
+  <tr>
+    <th>ID Categoria</th>
+    <th>Nombre de Categoria</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="cprendas : ${cprenda}">
+    <td th:text="${cprendas.id}"></td>
+    <td th:text="${cprendas.nombrePrenda}"></td>
+  </tr>
+  </tbody>
+</table>
+<div>
+  <h1> crear una categoria </h1>
+  <form th:action="@{/categorias/ropas}" method="post" th:object="${Cprenda}">
+    <div th:if="${error}">
+      <p style="color:red;" th:text="${error}"></p>
+    </div>
+    <div>
+      <label for="nombrePrenda">Categoria prenda:</label>
+      <input type="text" id="nombrePrenda" th:field="*{nombrePrenda}" placeholder="Nombre de Prenda">
+    </div>
+    <button type="submit">Guardar Categoria</button>
+  </form>
+</div>
+</body>
+</html>

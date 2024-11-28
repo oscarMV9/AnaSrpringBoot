@@ -1,9 +1,16 @@
 package com.gaes4.AStyles.Controladores;
 
 import com.gaes4.AStyles.Dtos.CategoriaGeneroDto;
+import com.gaes4.AStyles.Dtos.CategoriaPrendaDto;
+import com.gaes4.AStyles.Dtos.CategoriaTallasDto;
 import com.gaes4.AStyles.Entidades.CategoriaGenero;
+import com.gaes4.AStyles.Entidades.CategoriaPrenda;
+import com.gaes4.AStyles.Repositorios.CategoriaPrendasRepo;
+import com.gaes4.AStyles.Repositorios.CategoriaTallaRepo;
 import com.gaes4.AStyles.Repositorios.CategoriasGeneroRepo;
 import com.gaes4.AStyles.Servicios.CategoriaGeneroService;
+import com.gaes4.AStyles.Servicios.CategoriaPrendaService;
+import com.gaes4.AStyles.Servicios.CategoriaTallaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +29,17 @@ public class CategoriasGeneralesController {
     @Autowired
     private CategoriaGeneroService servicioCategoriaGenero;
     @Autowired
+    private CategoriaPrendaService servicioCategoriaPrendas;
+    @Autowired
+    private CategoriaTallaService servicioCetegoriaTallas;
+    @Autowired
     private CategoriasGeneroRepo repositorioGeneroC;
+    @Autowired
+    private CategoriaPrendasRepo repositorioPrendasC;
+    @Autowired
+    private CategoriaTallaRepo repositoriotallasC;
 
+    // listar categorias para GENEROS
     @GetMapping("/generos")
     public String mostrarGeneros(Model model) {
         List<CategoriaGeneroDto> categoriaGeneros =servicioCategoriaGenero.listaGeneroC();
@@ -32,6 +48,39 @@ public class CategoriasGeneralesController {
         return "Categorias/listaGeneros";
     }
 
+    // Listar categorias para PRENDAS
+    @GetMapping("/ropas")
+    public String mostrarRopas(Model model) {
+        List<CategoriaPrendaDto> categoriaPrendas = servicioCategoriaPrendas.listaprendasC();
+        model.addAttribute("cprenda", categoriaPrendas);
+        model.addAttribute("Cprenda", new CategoriaPrendaDto());
+        return "Categorias/listaPrendas";
+    }
+
+    @GetMapping("/tallas")
+    public String mostrarTallas(Model model) {
+        List<CategoriaTallasDto> categoriaTalla = servicioCetegoriaTallas.listaCategoriasT();
+        model.addAttribute("ctalla", categoriaTalla);
+        return "Categorias/listaTallas";
+    }
+
+    // Crear PRENDAS
+    @PostMapping("/ropas")
+    public String crearCategoriaP(@ModelAttribute CategoriaPrendaDto categoriaPrendaDto, Model model) {
+        try {
+            Optional<CategoriaPrenda> existente = repositorioPrendasC.findByNombrePrenda(categoriaPrendaDto.getNombrePrenda());
+            if (existente.isPresent()) {
+                throw new IllegalArgumentException("La categoria" + categoriaPrendaDto.getNombrePrenda() + "' ya existe.");
+            }
+            servicioCategoriaPrendas.guardarGenero(categoriaPrendaDto);
+            return "redirect:/categorias/ropas";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            return "Categorias/listaGeneros";
+        }
+    }
+
+    // crear GENEROS
     @PostMapping("/generos")
     public String crearCategoriaG(@ModelAttribute CategoriaGeneroDto categoriaGeneroDto, Model model) {
         try {
@@ -43,7 +92,7 @@ public class CategoriasGeneralesController {
             return "redirect:/categorias/generos";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
-            return "Categorias/listaGeneros";
+            return "Categorias/listaPrendas";
         }
     }
 }

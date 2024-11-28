@@ -23,4 +23,28 @@ public class CategoriaPrenda {
 
     @OneToMany(mappedBy = "categoriaPrenda")
     private List<Produccion> produccions;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNombrePrenda() {
+        return nombrePrenda;
+    }
+
+    public void setNombrePrenda(String nombrePrenda) {
+        this.nombrePrenda = nombrePrenda;
+    }
+
+    public List<Produccion> getProduccions() {
+        return produccions;
+    }
+
+    public void setProduccions(List<Produccion> produccions) {
+        this.produccions = produccions;
+    }
 }

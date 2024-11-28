@@ -10,8 +10,8 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "categoria_tallas")
-@AllArgsConstructor
-@NoArgsConstructor
+//@AllArgsConstructor
+//@NoArgsConstructor
 public class CategoriaTallas {
 
     @Id
@@ -24,4 +24,36 @@ public class CategoriaTallas {
     @OneToMany(mappedBy = "categoriaTallas")
     private List<Produccion> produccions;
 
+    public CategoriaTallas(Long id, List<Produccion> produccions, String talla) {
+        this.id = id;
+        this.produccions = produccions;
+        this.talla = talla;
+    }
+
+    public CategoriaTallas() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Produccion> getProduccions() {
+        return produccions;
+    }
+
+    public void setProduccions(List<Produccion> produccions) {
+        this.produccions = produccions;
+    }
+
+    public String getTalla() {
+        return talla;
+    }
+
+    public void setTalla(String talla) {
+        this.talla = talla;
+    }
 }
