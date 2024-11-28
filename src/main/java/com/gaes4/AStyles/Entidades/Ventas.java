@@ -20,7 +20,7 @@ public class Ventas {
     private Long idVenta;
 
     @ManyToOne
-    @JoinColumn(name = "id_venta", nullable = false)
+    @JoinColumn(name = "id_cliente", nullable = false)
     private Clientes clientes;
 
     @OneToOne(mappedBy = "ventas", cascade = CascadeType.ALL)

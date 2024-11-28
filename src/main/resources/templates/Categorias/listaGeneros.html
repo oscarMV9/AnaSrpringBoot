@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista De Generos</title>
+</head>
+<body>
+<h1>Lista De Generos</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID Categoria</th>
+            <th>Genero</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="cgeneros : ${cgenero}">
+            <td th:text="${cgeneros.id}"></td>
+            <td th:text="${cgeneros.genero}"></td>
+        </tr>
+    </tbody>
+</table>
+<div>
+    <h1> crear una categoria </h1>
+    <form th:action="@{/categorias/generos}" method="post" th:object="${Cgenero}">
+        <div th:if="${error}">
+            <p style="color:red;" th:text="${error}"></p>
+        </div>
+        <div>
+            <label for="nombreCategoria">Genero de Categoria:</label>
+            <input type="text" id="nombreCategoria" th:field="*{genero}" placeholder="Nombre del Genero">
+        </div>
+        <button type="submit">Guardar Categoria</button>
+    </form>
+</div>
+</body>
+</html>

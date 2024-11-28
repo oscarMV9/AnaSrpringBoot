@@ -26,19 +26,19 @@ public class Produccion {
     @Column(nullable = false, length = 60)
     private String nombreProveedor;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "id_Talla", nullable = false)
     private CategoriaTallas categoriaTallas;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "id_color", nullable = false)
     private CategoriaColor categoriaColor;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "id_tipPrenda", nullable = false)
     private CategoriaPrenda categoriaPrenda;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "id_genero", nullable = false)
     private CategoriaGenero categoriaGenero;
 
